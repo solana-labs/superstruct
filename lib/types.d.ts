@@ -125,7 +125,10 @@ export declare function object<V extends StructRecord<any>>(Structs: V): Struct<
 /**
  * Validate that an object has specific entry values but ignore rest.
  */
-export declare function pick<V extends StructRecord<any>>(Structs?: V): Struct<any, any>;
+export declare function pick<V extends StructRecord<any>>(): Struct<Record<string, unknown>>;
+export declare function pick<V extends StructRecord<any>>(Structs: V): Struct<OptionalizeObject<{
+    [K in keyof V]: StructType<V[K]>;
+}>, V>;
 /**
  * Augment a struct to make it optionally accept `undefined` values.
  */

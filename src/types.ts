@@ -328,6 +328,12 @@ export function object<V extends StructRecord<any>>(
  * Validate that an object has specific entry values but ignore rest.
  */
 
+export function pick<V extends StructRecord<any>>(): Struct<
+  Record<string, unknown>
+>
+export function pick<V extends StructRecord<any>>(
+  Structs: V
+): Struct<OptionalizeObject<{ [K in keyof V]: StructType<V[K]> }>, V>
 export function pick<V extends StructRecord<any>>(
   Structs?: V
 ): Struct<any, any> {
