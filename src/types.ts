@@ -325,6 +325,35 @@ export function object<V extends StructRecord<any>>(
 }
 
 /**
+ * Validate that an object has specific entry values but ignore rest.
+ */
+
+export function pick<V extends StructRecord<any>>(
+  Structs?: V
+): Struct<any, any> {
+  const knowns = Structs ? Object.keys(Structs) : []
+  return new Struct({
+    type: Structs ? `Object<{${knowns.join(',')}}>` : 'Object',
+    schema: Structs ? Structs : null,
+    coercer: Structs ? createObjectCoercer(Structs) : (x) => x,
+    *validator(value, ctx) {
+      if (typeof value !== 'object' || value == null) {
+        yield ctx.fail()
+        return
+      }
+
+      if (Structs) {
+        for (const key of knowns) {
+          const Value = Structs[key]
+          const v = value[key]
+          yield* ctx.check(v, Value, value, key)
+        }
+      }
+    },
+  })
+}
+
+/**
  * Augment a struct to make it optionally accept `undefined` values.
  */
 
