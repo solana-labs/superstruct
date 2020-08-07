@@ -370,6 +370,10 @@ export function optional<T>(S: Struct<T>): Struct<T | undefined> {
     validator: (value, ctx) => {
       return value === undefined || ctx.check(value, S)
     },
+    coercer: (value) => {
+      if (value === undefined) return value;
+      return S.coercer(value);
+    },
   })
 }
 
