@@ -236,6 +236,10 @@ export function nullable<T>(S: Struct<T>): Struct<T | null> {
     validator: (value, ctx) => {
       return value === null || ctx.check(value, S)
     },
+    coercer: (value) => {
+      if (value === undefined) return value;
+      return S.coercer(value);
+    },
   })
 }
 
