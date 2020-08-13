@@ -237,7 +237,7 @@ export function nullable<T>(S: Struct<T>): Struct<T | null> {
       return value === null || ctx.check(value, S)
     },
     coercer: (value) => {
-      if (value === undefined) return value;
+      if (value === null) return value;
       return S.coercer(value);
     },
   })
