@@ -11,7 +11,7 @@ export class Struct<T = unknown, S = unknown> {
   readonly TYPE!: T
   type: string
   schema: S
-  coercer: (value: unknown, context: Context) => unknown
+  coercer: (value: unknown, context: Context, maskValue: boolean) => unknown
   validator: (value: unknown, context: Context) => Iterable<Failure>
   refiner: (value: T, context: Context) => Iterable<Failure>
   entries: (
@@ -232,7 +232,11 @@ export type Result =
  * A `Coercer` takes an unknown value and optionally coerces it.
  */
 
-export type Coercer<T = unknown> = (value: T, context: Context) => unknown
+export type Coercer<T = unknown> = (
+  value: T,
+  context: Context,
+  maskValue: boolean
+) => unknown
 
 /**
  * A `Validator` takes an unknown value and validates it.

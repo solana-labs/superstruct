@@ -20,10 +20,10 @@ export function coerce<T, S, C>(
 ): Struct<T, S> {
   return new Struct({
     ...struct,
-    coercer: (value, ctx) => {
+    coercer: (value, ctx, mask) => {
       return is(value, condition)
-        ? struct.coercer(coercer(value, ctx), ctx)
-        : struct.coercer(value, ctx)
+        ? struct.coercer(coercer(value, ctx, mask), ctx, mask)
+        : struct.coercer(value, ctx, mask)
     },
   })
 }

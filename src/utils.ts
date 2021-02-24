@@ -129,7 +129,7 @@ export function* run<T, S>(
   const ctx: Context = { path, branch }
 
   if (coerce) {
-    value = struct.coercer(value, ctx)
+    value = struct.coercer(value, ctx, mask)
 
     if (
       mask &&
