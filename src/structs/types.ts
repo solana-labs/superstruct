@@ -627,12 +627,13 @@ export function union(Structs: Struct<any>[]): any {
     schema: null,
     coercer(value, ctx) {
       for (const S of Structs) {
-        let valid = true;
-        for (const _ of S.validator(value, ctx)) {
-          valid = false;
-        }
-        if (valid) {
-          return S.coercer(value, ctx);
+        const [...tuples] = run(value, S, {
+          coerce: true,
+          ...ctx
+        });
+        const [first] = tuples;
+        if (!first[0]) {
+          return first[1];
         }
       }
       return value;
